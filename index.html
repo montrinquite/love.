@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Turtle Heart — I Love You</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.12.1/brython.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.12.1/brython_stdlib.min.js"></script>
+<style>
+  :root {
+    --ink: #f4f0ea;
+    --paper: #0e0e10;
+    --line: #2a2a2e;
+    --accent: #ff69b4;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Courier New', ui-monospace, monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 28px 16px 40px;
+  }
+  h1 {
+    font-size: 1.1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 4px;
+    color: var(--accent);
+  }
+  p.sub {
+    margin: 0 0 20px;
+    color: #9a958c;
+    font-size: 0.85rem;
+  }
+  .stage {
+    background: #000;
+    border: 1px solid var(--line);
+    box-shadow: 0 0 20px rgba(255,105,180,0.15);
+  }
+  #turtle-canvas-wrapper canvas {
+    display: block;
+  }
+  .panel {
+    margin-top: 18px;
+    display: flex;
+    gap: 10px;
+  }
+  button {
+    background: var(--accent);
+    color: #1b1216;
+    border: none;
+    padding: 10px 18px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 3px;
+    font-weight: bold;
+  }
+  button:hover { background: #ff8ec4; }
+</style>
+</head>
+<body onload="brython()">
+
+  <h1>I Love You</h1>
+  <p class="sub">Hi, Love, I hope you like the code that I made for you!</p>
+
+  <div class="stage" id="turtle-canvas-wrapper"></div>
+
+  <div class="panel">
+    <button id="run-btn">▶ REPLAY</button>
+  </div>
+
+<script type="text/python" id="runner">
+from browser import document
+from turtle import *
+import math
+
+def run_code(ev=None):
+    wrapper = document["turtle-canvas-wrapper"]
+    wrapper.clear()
+
+    screen = Screen()
+    screen.setup(600, 550)
+    screen.bgcolor("black")
+
+    speed(0)
+    color("hotpink")
+    pensize(2)
+    hideturtle()
+
+    for i in range(600):
+        t = i / 20
+
+        x = 16 * math.sin(t) ** 3
+        y = 13 * math.cos(t) - 5 * math.cos(2 * t) - 2 * math.cos(3 * t) - math.cos(4 * t)
+
+        penup()
+        goto(x * 15, y * 15)
+        pendown()
+        if i % 1 == 0:
+            write("I love you", align="center", font=("Arial", 8, "bold"))
+
+    done()
+
+document["run-btn"].bind("click", run_code)
+run_code()
+</script>
+
+</body>
+</html>
